@@ -5,7 +5,5 @@
   "action": {
     "default_popup": "index.html"
   },
-  "icons": {
-   
-  }
+  "icons": {}
 }
