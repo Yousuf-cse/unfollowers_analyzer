@@ -16,15 +16,19 @@ export const UserList: FC<UserListProps> = ({ users }) => {
       {users.map((username: string, index: number) => {
         const initial = username.charAt(0).toUpperCase();
         return (
-          <div
+          <a
             key={index}
+            href={`https://www.instagram.com/${username}/`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-3 p-3 mb-2 border-4 border-black bg-white hover:bg-gray-50 transition-all cursor-pointer"
           >
             <div className="w-10 h-10 bg-linear-to-br from-primary to-dark flex items-center justify-center text-white font-black text-lg flex-shrink-0">
               {initial}
             </div>
             <div className="font-black text-sm uppercase">@{username}</div>
-          </div>
+            <span className="text-xs opacity-40">↗</span>
+          </a>
         );
       })}
     </div>
