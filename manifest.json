@@ -1,9 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Insta Unfollowers",
+  "description": "Analyze Instagram followers locally",
   "version": "1.0.0",
-  "action": {
-    "default_popup": "index.html"
+  "side_panel": {
+    "default_path": "index.html"
   },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["sidePanel"],
   "icons": {}
 }
