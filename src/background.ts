@@ -8,4 +8,24 @@ chrome.runtime.onMessage.addListener((message, _sender) => {
       }
     });
   }
+
+  if (message.type === "OPEN_INSTAGRAM_EXPORT_NEW") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]?.id) {
+        chrome.tabs.update(tabs[0].id, {
+          url: "https://accountscenter.instagram.com/info_and_permissions/dyi/",
+        });
+      }
+    });
+  }
+
+  if (message.type === "OPEN_INSTAGRAM_EXPORT_OLD") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]?.id) {
+        chrome.tabs.update(tabs[0].id, {
+          url: "https://www.instagram.com/accounts/privacy_and_security/",
+        });
+      }
+    });
+  }
 });
