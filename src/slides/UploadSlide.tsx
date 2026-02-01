@@ -9,6 +9,7 @@ export const UploadSlide: FC<UploadSlideProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [showGuide, setShowGuide] = useState<boolean>(false);
 
   const handleDrop = (e: DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
@@ -48,6 +49,38 @@ export const UploadSlide: FC<UploadSlideProps> = ({
       >
         🔗 GO TO INSTAGRAM DATA EXPORT
       </button>
+
+      <button
+        onClick={() => setShowGuide((prev) => !prev)}
+        className="w-full mt-2 text-[10px] uppercase underline opacity-60 hover:opacity-100"
+      >
+        {showGuide ? "Hide export steps ⬆️" : "How to export from Instagram ⬇️"}
+      </button>
+      {showGuide && (
+        <div className="mt-3 border-4 border-black bg-white p-3 text-[10px] font-bold uppercase space-y-2">
+          <p>Follow these steps in Instagram:</p>
+
+          <ol className="list-decimal list-inside space-y-1">
+            <li>
+              Click <span className="underline">Create export</span>
+            </li>
+            <li>Choose your Instagram profile</li>
+            <li>
+              Select <span className="underline">Export to device</span>
+            </li>
+            <li>
+              Change format to <span className="underline">JSON</span>
+            </li>
+            <li>
+              Click <span className="underline">Start export</span>
+            </li>
+          </ol>
+
+          <p className="pt-2">
+            When the file is ready, download it and upload it here.
+          </p>
+        </div>
+      )}
 
       <p className="mt-2 text-[10px] uppercase opacity-50">
         Instagram doesn’t allow automatic access. You’ll finish the export in
