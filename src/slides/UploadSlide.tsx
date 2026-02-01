@@ -9,6 +9,7 @@ export const UploadSlide: FC<UploadSlideProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [showGuide, setShowGuide] = useState<boolean>(false);
 
   const handleDrop = (e: DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
@@ -38,8 +39,67 @@ export const UploadSlide: FC<UploadSlideProps> = ({
         <span>←</span> BACK
       </button>
 
+      <button
+        onClick={() =>
+          chrome.runtime.sendMessage({
+            type: "OPEN_INSTAGRAM_EXPORT_NEW",
+          })
+        }
+        className="w-full mb-3 border-4 border-black bg-white font-black text-xs uppercase py-3 hover:bg-gray-100 transition-all"
+      >
+        🔗 GO TO INSTAGRAM DATA EXPORT
+      </button>
+
+      <button
+        onClick={() => setShowGuide((prev) => !prev)}
+        className="w-full mt-2 text-[10px] uppercase underline opacity-60 hover:opacity-100"
+      >
+        {showGuide ? "Hide export steps ⬆️" : "How to export from Instagram ⬇️"}
+      </button>
+      {showGuide && (
+        <div className="mt-3 border-4 border-black bg-white p-3 text-[10px] font-bold uppercase space-y-2">
+          <p>Follow these steps in Instagram:</p>
+
+          <ol className="list-decimal list-inside space-y-1">
+            <li>
+              Click <span className="underline">Create export</span>
+            </li>
+            <li>Choose your Instagram profile</li>
+            <li>
+              Select <span className="underline">Export to device</span>
+            </li>
+            <li>
+              Change format to <span className="underline">JSON</span>
+            </li>
+            <li>
+              Click <span className="underline">Start export</span>
+            </li>
+          </ol>
+
+          <p className="pt-2">
+            When the file is ready, download it and upload it here.
+          </p>
+        </div>
+      )}
+
+      <p className="mt-2 text-[10px] uppercase opacity-50">
+        Instagram doesn’t allow automatic access. You’ll finish the export in
+        Accounts Center.
+      </p>
+
+      <button
+        onClick={() =>
+          chrome.runtime.sendMessage({
+            type: "OPEN_INSTAGRAM_EXPORT_OLD",
+          })
+        }
+        className="w-full text-[10px] uppercase underline opacity-60 hover:opacity-100"
+      >
+        Having trouble? Try the older Instagram settings
+      </button>
+
       <div className="border-8 border-black bg-dark p-4 mb-6">
-        <h2 className="text-3xl font-black text-white uppercase leading-tight">
+        <h2 className="text-3xl font-black text-red-800 uppercase leading-tight">
           UPLOAD
           <br />
           DATA.ZIP
@@ -71,7 +131,7 @@ export const UploadSlide: FC<UploadSlideProps> = ({
             e.stopPropagation();
             fileInputRef.current?.click();
           }}
-          className="bg-primary text-white border-4 border-black font-black text-sm uppercase py-3 px-6 hover:bg-dark transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+          className="bg-primary text-blue-600 border-4 border-black font-black text-sm uppercase py-3 px-6 hover:bg-dark transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
         >
           CHOOSE FILE
         </button>

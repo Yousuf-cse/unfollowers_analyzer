@@ -4,7 +4,7 @@ import type { WelcomeSlideProps } from "../types/instagram";
 export const WelcomeSlide: FC<WelcomeSlideProps> = ({ onNext }) => (
   <div className="p-8">
     <div className="border-8 border-black bg-primary p-6 mb-6">
-      <h1 className="text-5xl font-black text-white uppercase leading-none mb-2 tracking-tight">
+      <h1 className="text-5xl font-black text-gray-500 uppercase leading-none mb-2 tracking-tight">
         INSTA
         <br />
         UNFOLLOWERS
