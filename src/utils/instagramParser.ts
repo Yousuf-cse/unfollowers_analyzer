@@ -1,4 +1,36 @@
 import { normalize } from "./normalize";
+import { detectInstagramFormat } from "./instagramFormat";
+
+function extractAccountsFollowing(data: any): string[] {
+  const result: string[] = [];
+
+  const items = data.relationships_following || [];
+
+  items.forEach((item: any) => {
+    if (typeof item?.title === "string") {
+      result.push(normalize(item.title));
+    }
+  });
+
+  return result;
+}
+
+function extractLegacyFollowing(data: any): string[] {
+  const result: string[] = [];
+
+  data.forEach((item: any) => {
+    if (Array.isArray(item?.string_list_data)) {
+      item.string_list_data.forEach((entry: any) => {
+        if (typeof entry?.value === "string") {
+         result.push(normalize(entry.value));
+        }
+      });
+    }
+  });
+
+  return result;
+}
+
 
 export const extractFollowers = async (zip: any): Promise<string[] | null> => {
   const followers: string[] = [];
@@ -77,17 +109,23 @@ export const extractFollowing = async (zip: any): Promise<string[] | null> => {
   try {
     const content: string = await followingFile.async("text");
     const data = JSON.parse(content);
-    const items = Array.isArray(data)
-      ? data
-      : Array.isArray(data?.relationships_following)
-        ? data.relationships_following
-        : [];
+    const format = detectInstagramFormat(null, data);
 
-    items.forEach((item: any) => {
-      if (typeof item?.title === "string") {
-        following.push(normalize(item.title));
-      }
-    });
+    console.log("Detected Instagram format:", format);
+
+    if (format === "unknown") {
+      throw new Error(
+        "Unsupported Instagram export format. Please export using JSON format.",
+      );
+    }
+
+    if (format === "accounts-center") {
+      return extractAccountsFollowing(data);
+    }
+
+    if (format === "legacy-json") {
+      return extractLegacyFollowing(data);
+    }
   } catch (error) {
     console.error("Error parsing following file:", error);
     return null;
