@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FC, JSX } from "react";
 import JSZip from "jszip";
 import type { AnalysisData } from "./types/instagram";
@@ -18,6 +18,9 @@ const App: FC = () => {
     mutuals: [],
     youDontFollow: [],
   });
+  const [guidedUsers, setGuidedUsers] = useState<string[]>([]);
+  const [guidedIndex, setGuidedIndex] = useState(0);
+  const [guidedActive, setGuidedActive] = useState(false);
 
   const handleFileSelect = async (file: File): Promise<void> => {
     if (!file.name.endsWith(".zip")) {
@@ -84,6 +87,52 @@ const App: FC = () => {
     });
   };
 
+  const openProfile = (username: string) => {
+    const url = `https://www.instagram.com/${username}/`;
+    chrome.tabs.update({ url });
+  };
+
+  const startGuidedMode = (users: string[]) => {
+    if (!users.length) return;
+
+    setGuidedUsers(users);
+    setGuidedIndex(0);
+    setGuidedActive(true);
+
+    openProfile(users[0]);
+  };
+
+  const nextGuidedProfile = () => {
+    const next = guidedIndex + 1;
+
+    if (next >= guidedUsers.length) {
+      setGuidedActive(false);
+      alert("Guided session complete!");
+      return;
+    }
+
+    setGuidedIndex(next);
+    openProfile(guidedUsers[next]);
+  };
+
+  const stopGuidedMode = () => {
+    setGuidedActive(false);
+  };
+
+  useEffect(() => {
+    const listener = (msg: any) => {
+      if (msg.type === "GUIDED_UNFOLLOW_DETECTED") {
+        nextGuidedProfile();
+      }
+    };
+
+    chrome.runtime.onMessage.addListener(listener);
+
+    return () => {
+      chrome.runtime.onMessage.removeListener(listener);
+    };
+  }, [nextGuidedProfile]);
+
   const slides: JSX.Element[] = [
     <WelcomeSlide onNext={() => setCurrentSlide(1)} />,
     <UploadSlide
@@ -92,7 +141,16 @@ const App: FC = () => {
       error={error}
     />,
     <LoadingSlide />,
-    <ResultsSlide data={analysisData} onReset={handleReset} />,
+    <ResultsSlide
+      data={analysisData}
+      onReset={handleReset}
+      startGuidedMode={startGuidedMode}
+      nextGuidedProfile={nextGuidedProfile}
+      stopGuidedMode={stopGuidedMode}
+      guidedActive={guidedActive}
+      guidedIndex={guidedIndex}
+      guidedTotal={guidedUsers.length}
+    />,
   ];
 
   return (

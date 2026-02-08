@@ -10,6 +10,12 @@
     "service_worker": "background.js",
     "type": "module"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["guidedWatcher.js"]
+    }
+  ],
   "permissions": ["sidePanel", "tabs"],
   "icons": {}
 }
