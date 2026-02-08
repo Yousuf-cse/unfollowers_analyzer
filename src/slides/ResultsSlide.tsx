@@ -4,7 +4,16 @@ import type { ResultsSlideProps } from "../types/instagram";
 import type { TabData } from "../types/instagram";
 import { UserList } from "../components/UserList";
 
-export const ResultsSlide: FC<ResultsSlideProps> = ({ data, onReset }) => {
+export const ResultsSlide: FC<ResultsSlideProps> = ({
+  data,
+  onReset,
+  startGuidedMode,
+  nextGuidedProfile,
+  stopGuidedMode,
+  guidedActive,
+  guidedIndex,
+  guidedTotal,
+}) => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
 
@@ -118,6 +127,39 @@ export const ResultsSlide: FC<ResultsSlideProps> = ({ data, onReset }) => {
       <div className="mb-3 bg-white border-4 border-[#0F2854] shadow-[2px_2px_0px_0px_rgba(15,40,84,1)] overflow-hidden">
         <UserList users={tabs[activeTab].data} />
       </div>
+
+      <button
+        onClick={() => startGuidedMode(data.notFollowingBack)}
+        className="w-full mb-3 bg-white border-4 border-[#0F2854] font-black text-xs uppercase py-2.5 hover:bg-[#BDE8F5] hover:bg-opacity-20 transition-all shadow-[3px_3px_0px_0px_rgba(15,40,84,1)] hover:shadow-[1px_1px_0px_0px_rgba(15,40,84,1)] hover:translate-x-[2px] hover:translate-y-[2px] text-[#0F2854]"
+      >
+        Guided Unfollow Mode
+      </button>
+
+      {guidedActive && (
+        <div className="mb-4 border-4 border-[#0F2854] bg-white shadow-[3px_3px_0px_0px_rgba(15,40,84,1)] p-3 space-y-3">
+          <div className="text-center bg-[#1C4D8D] border-4 border-[#0F2854] py-2 shadow-[2px_2px_0px_0px_rgba(15,40,84,1)]">
+            <p className="text-white font-black text-sm tracking-wide">
+              PROFILE {guidedIndex + 1} / {guidedTotal}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={nextGuidedProfile}
+              className="bg-white border-4 border-[#0F2854] font-black text-xs uppercase py-2.5 hover:bg-[#BDE8F5] hover:bg-opacity-20 transition-all shadow-[3px_3px_0px_0px_rgba(15,40,84,1)] hover:shadow-[1px_1px_0px_0px_rgba(15,40,84,1)] hover:translate-x-[2px] hover:translate-y-[2px] text-[#0F2854]"
+            >
+              Next →
+            </button>
+
+            <button
+              onClick={stopGuidedMode}
+              className="bg-[#1C4D8D] text-white border-4 border-[#0F2854] font-black text-xs uppercase py-2.5 hover:bg-[#163c6d] transition-all shadow-[3px_3px_0px_0px_rgba(15,40,84,1)] hover:shadow-[1px_1px_0px_0px_rgba(15,40,84,1)] hover:translate-x-[2px] hover:translate-y-[2px]"
+            >
+              Stop
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-2 gap-2">
         <button

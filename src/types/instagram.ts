@@ -17,6 +17,14 @@ export interface UploadSlideProps {
 export interface ResultsSlideProps {
   data: AnalysisData;
   onReset: () => void;
+
+  startGuidedMode: (users: string[]) => void;
+  nextGuidedProfile: () => void;
+  stopGuidedMode: () => void;
+
+  guidedActive: boolean;
+  guidedIndex: number;
+  guidedTotal: number;
 }
 
 export interface UserListProps {
