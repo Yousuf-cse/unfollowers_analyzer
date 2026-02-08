@@ -53,49 +53,61 @@ export const ResultsSlide: FC<ResultsSlideProps> = ({ data, onReset }) => {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 max-w-full bg-white overflow-x-hidden">
       <button
         onClick={onReset}
-        className="mb-4 text-sm font-black uppercase flex items-center gap-2 hover:gap-3 transition-all"
+        className="mb-3 text-xs font-black uppercase flex items-center gap-1.5 hover:gap-2.5 transition-all text-[#0F2854] hover:text-[#1C4D8D]"
       >
         <span>←</span> RESET
       </button>
 
-      <div className="border-8 border-black bg-dark p-4 mb-6">
-        <h2 className="text-3xl font-black text-white uppercase leading-tight">
+      <div className="border-4 border-[#0F2854] bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] p-3 mb-4 shadow-[4px_4px_0px_0px_rgba(15,40,84,1)]">
+        <h2 className="text-2xl font-black text-white uppercase leading-tight drop-shadow-lg">
           RESULTS
         </h2>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-3 gap-2 mb-4">
         {[
-          { count: data.notFollowingBack.length, label: "NOT BACK" },
-          { count: data.mutuals.length, label: "MUTUAL" },
-          { count: data.youDontFollow.length, label: "YOU DON'T" },
+          {
+            count: data.notFollowingBack.length,
+            label: "NOT BACK",
+            bg: "bg-[#1C4D8D]",
+          },
+          { count: data.mutuals.length, label: "MUTUAL", bg: "bg-[#4988C4]" },
+          {
+            count: data.youDontFollow.length,
+            label: "YOU DON'T",
+            bg: "bg-[#BDE8F5]",
+          },
         ].map((stat, index) => (
           <div
             key={index}
-            className="border-4 border-black bg-white p-4 text-center hover:bg-gray-50 transition-all"
+            className={`border-4 border-[#0F2854] ${stat.bg} p-2 text-center hover:scale-105 transition-all shadow-[2px_2px_0px_0px_rgba(15,40,84,1)]`}
           >
-            <div className="text-4xl font-black text-primary mb-1">
+            <div
+              className={`text-2xl font-black mb-0.5 drop-shadow-md ${stat.bg === "bg-[#BDE8F5]" ? "text-[#0F2854]" : "text-white"}`}
+            >
               {stat.count}
             </div>
-            <div className="text-[9px] font-black uppercase tracking-wide opacity-60">
+            <div
+              className={`text-[10px] font-black uppercase tracking-wide leading-tight ${stat.bg === "bg-[#BDE8F5]" ? "text-[#0F2854]" : "text-white/90"}`}
+            >
               {stat.label}
             </div>
           </div>
         ))}
       </div>
 
-      <div className="flex gap-2 mb-4 border-b-4 border-black">
+      <div className="flex gap-1 mb-3 border-b-4 border-[#0F2854] bg-white shadow-[2px_2px_0px_0px_rgba(15,40,84,1)]">
         {tabs.map((tab: TabData, index: number) => (
           <button
             key={index}
             onClick={() => setActiveTab(index)}
-            className={`px-4 py-2 font-black text-xs uppercase border-b-4 transition-all ${
+            className={`flex-1 px-2 py-2 font-black text-xs uppercase border-b-4 transition-all ${
               activeTab === index
-                ? "border-black opacity-100"
-                : "border-transparent opacity-50 hover:opacity-100"
+                ? "border-[#1C4D8D] text-[#0F2854] bg-[#BDE8F5] bg-opacity-20"
+                : "border-transparent text-[#0F2854] opacity-60 hover:opacity-100 hover:bg-[#BDE8F5] hover:bg-opacity-10"
             }`}
           >
             {tab.label}
@@ -103,22 +115,24 @@ export const ResultsSlide: FC<ResultsSlideProps> = ({ data, onReset }) => {
         ))}
       </div>
 
-      <UserList users={tabs[activeTab].data} />
+      <div className="mb-3 bg-white border-4 border-[#0F2854] shadow-[2px_2px_0px_0px_rgba(15,40,84,1)] overflow-hidden">
+        <UserList users={tabs[activeTab].data} />
+      </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2">
         <button
           onClick={handleCopy}
-          className={`border-4 border-black font-black text-sm uppercase py-3 transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] ${
+          className={`border-4 border-[#0F2854] font-black text-xs uppercase py-2.5 transition-all shadow-[3px_3px_0px_0px_rgba(15,40,84,1)] hover:shadow-[1px_1px_0px_0px_rgba(15,40,84,1)] hover:translate-x-[2px] hover:translate-y-[2px] ${
             copySuccess
-              ? "bg-green-500 text-white"
-              : "bg-white hover:bg-gray-100"
+              ? "bg-[#1C4D8D] text-white"
+              : "bg-white hover:bg-[#BDE8F5] hover:bg-opacity-20 text-[#0F2854]"
           }`}
         >
           {copySuccess ? "✓ COPIED!" : "📋 COPY"}
         </button>
         <button
           onClick={handleExportCSV}
-          className="bg-white border-4 border-black font-black text-sm uppercase py-3 hover:bg-gray-100 transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+          className="bg-white border-4 border-[#0F2854] font-black text-xs uppercase py-2.5 hover:bg-[#BDE8F5] hover:bg-opacity-20 transition-all shadow-[3px_3px_0px_0px_rgba(15,40,84,1)] hover:shadow-[1px_1px_0px_0px_rgba(15,40,84,1)] hover:translate-x-[2px] hover:translate-y-[2px] text-[#0F2854]"
         >
           💾 CSV
         </button>

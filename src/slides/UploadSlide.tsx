@@ -31,13 +31,21 @@ export const UploadSlide: FC<UploadSlideProps> = ({
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 max-w-full bg-white">
       <button
         onClick={onBack}
-        className="mb-4 text-sm font-black uppercase flex items-center gap-2 hover:gap-3 transition-all"
+        className="mb-3 text-xs font-black uppercase flex items-center gap-1.5 hover:gap-2.5 transition-all text-[#0F2854] hover:text-[#1C4D8D]"
       >
         <span>←</span> BACK
       </button>
+
+      <div className="border-4 border-[#0F2854] bg-gradient-to-br from-[#0F2854] to-[#1C4D8D] p-3 mb-4 shadow-[4px_4px_0px_0px_rgba(15,40,84,1)]">
+        <h2 className="text-2xl font-black text-white uppercase leading-tight drop-shadow-lg">
+          UPLOAD
+          <br />
+          DATA.ZIP
+        </h2>
+      </div>
 
       <button
         onClick={() =>
@@ -45,45 +53,50 @@ export const UploadSlide: FC<UploadSlideProps> = ({
             type: "OPEN_INSTAGRAM_EXPORT_NEW",
           })
         }
-        className="w-full mb-3 border-4 border-black bg-white font-black text-xs uppercase py-3 hover:bg-gray-100 transition-all"
+        className="w-full mb-2 border-4 border-[#0F2854] bg-white font-black text-xs uppercase py-2.5 hover:bg-[#BDE8F5] hover:bg-opacity-20 transition-all shadow-[2px_2px_0px_0px_rgba(15,40,84,1)] text-[#0F2854]"
       >
         🔗 GO TO INSTAGRAM DATA EXPORT
       </button>
 
       <button
         onClick={() => setShowGuide((prev) => !prev)}
-        className="w-full mt-2 text-[10px] uppercase underline opacity-60 hover:opacity-100"
+        className="w-full mb-2 text-xs uppercase underline font-bold text-[#1C4D8D] hover:text-[#4988C4] transition-all"
       >
         {showGuide ? "Hide export steps ⬆️" : "How to export from Instagram ⬇️"}
       </button>
-      {showGuide && (
-        <div className="mt-3 border-4 border-black bg-white p-3 text-[10px] font-bold uppercase space-y-2">
-          <p>Follow these steps in Instagram:</p>
 
-          <ol className="list-decimal list-inside space-y-1">
+      {showGuide && (
+        <div className="mb-3 border-4 border-[#0F2854] bg-white p-3 text-xs font-bold uppercase space-y-2 shadow-[2px_2px_0px_0px_rgba(15,40,84,1)] text-[#0F2854]">
+          <p className="text-xs text-[#1C4D8D]">
+            Follow these steps in Instagram:
+          </p>
+          <ol className="list-decimal list-inside space-y-1 text-xs">
             <li>
-              Click <span className="underline">Create export</span>
+              Click{" "}
+              <span className="underline text-[#4988C4]">Create export</span>
             </li>
             <li>Choose your Instagram profile</li>
             <li>
-              Select <span className="underline">Export to device</span>
+              Select{" "}
+              <span className="underline text-[#4988C4]">Export to device</span>
             </li>
             <li>
-              Change format to <span className="underline">JSON</span>
+              Change format to{" "}
+              <span className="underline text-[#4988C4]">JSON</span>
             </li>
             <li>
-              Click <span className="underline">Start export</span>
+              Click{" "}
+              <span className="underline text-[#4988C4]">Start export</span>
             </li>
           </ol>
-
-          <p className="pt-2">
+          <p className="pt-1 text-xs">
             When the file is ready, download it and upload it here.
           </p>
         </div>
       )}
 
-      <p className="mt-2 text-[10px] uppercase opacity-50">
-        Instagram doesn’t allow automatic access. You’ll finish the export in
+      <p className="mb-2 text-xs uppercase leading-tight text-[#0F2854] opacity-70">
+        Instagram doesn't allow automatic access. You'll finish the export in
         Accounts Center.
       </p>
 
@@ -93,22 +106,16 @@ export const UploadSlide: FC<UploadSlideProps> = ({
             type: "OPEN_INSTAGRAM_EXPORT_OLD",
           })
         }
-        className="w-full text-[10px] uppercase underline opacity-60 hover:opacity-100"
+        className="w-full mb-3 text-xs uppercase underline font-bold text-[#0F2854] opacity-60 hover:opacity-100 transition-all"
       >
         Having trouble? Try the older Instagram settings
       </button>
 
-      <div className="border-8 border-black bg-dark p-4 mb-6">
-        <h2 className="text-3xl font-black text-red-800 uppercase leading-tight">
-          UPLOAD
-          <br />
-          DATA.ZIP
-        </h2>
-      </div>
-
       {error && (
-        <div className="border-4 border-red-600 bg-red-50 p-4 mb-4">
-          <p className="text-red-900 font-bold text-sm">{error}</p>
+        <div className="border-4 border-[#1C4D8D] bg-[#BDE8F5] bg-opacity-30 p-3 mb-3 shadow-[2px_2px_0px_0px_rgba(28,77,141,1)]">
+          <p className="text-[#0F2854] font-bold text-xs leading-tight">
+            {error}
+          </p>
         </div>
       )}
 
@@ -117,13 +124,17 @@ export const UploadSlide: FC<UploadSlideProps> = ({
         onDragOver={handleDragOver}
         onDragLeave={() => setIsDragging(false)}
         onClick={() => fileInputRef.current?.click()}
-        className={`border-8 border-dashed border-black p-8 text-center cursor-pointer transition-all mb-4 ${
-          isDragging ? "bg-gray-100" : "hover:bg-gray-50"
+        className={`border-4 border-dashed p-6 text-center cursor-pointer transition-all mb-3 shadow-[3px_3px_0px_0px_rgba(15,40,84,1)] ${
+          isDragging
+            ? "bg-[#BDE8F5] bg-opacity-30 border-[#1C4D8D]"
+            : "bg-white hover:bg-[#BDE8F5] hover:bg-opacity-10 border-[#0F2854]"
         }`}
       >
-        <div className="text-6xl mb-4">📦</div>
-        <h3 className="text-2xl font-black uppercase mb-2">DROP HERE</h3>
-        <p className="text-sm font-bold uppercase mb-4 opacity-60">
+        <div className="text-4xl mb-3">📦</div>
+        <h3 className="text-xl font-black uppercase mb-2 text-[#0F2854]">
+          DROP HERE
+        </h3>
+        <p className="text-xs font-bold uppercase mb-3 text-[#0F2854] opacity-60">
           OR CLICK TO BROWSE
         </p>
         <button
@@ -131,7 +142,7 @@ export const UploadSlide: FC<UploadSlideProps> = ({
             e.stopPropagation();
             fileInputRef.current?.click();
           }}
-          className="bg-primary text-blue-600 border-4 border-black font-black text-sm uppercase py-3 px-6 hover:bg-dark transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+          className="bg-[#1C4D8D] text-white border-4 border-[#0F2854] font-black text-xs uppercase py-2 px-4 hover:bg-[#4988C4] transition-all shadow-[3px_3px_0px_0px_rgba(15,40,84,1)] hover:shadow-[1px_1px_0px_0px_rgba(15,40,84,1)] hover:translate-x-[2px] hover:translate-y-[2px]"
         >
           CHOOSE FILE
         </button>
@@ -145,11 +156,11 @@ export const UploadSlide: FC<UploadSlideProps> = ({
         className="hidden"
       />
 
-      <div className="border-l-4 border-gold bg-yellow-50 p-4">
-        <p className="text-xs font-bold uppercase">
+      <div className="border-l-4 border-[#4988C4] bg-[#BDE8F5] bg-opacity-20 p-3 shadow-[2px_2px_0px_0px_rgba(73,136,196,0.3)]">
+        <p className="text-xs font-bold uppercase leading-tight text-[#0F2854]">
           🔐 ALL PROCESSING IS LOCAL
           <br />
-          NOTHING LEAVES YOUR BROWSER
+          <span className="text-[#1C4D8D]">NOTHING LEAVES YOUR BROWSER</span>
         </p>
       </div>
     </div>
