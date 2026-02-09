@@ -21,6 +21,7 @@ const App: FC = () => {
   const [guidedUsers, setGuidedUsers] = useState<string[]>([]);
   const [guidedIndex, setGuidedIndex] = useState(0);
   const [guidedActive, setGuidedActive] = useState(false);
+  const [visited, setVisited] = useState<Set<string>>(new Set());
 
   const handleFileSelect = async (file: File): Promise<void> => {
     if (!file.name.endsWith(".zip")) {
@@ -103,15 +104,21 @@ const App: FC = () => {
   };
 
   const nextGuidedProfile = () => {
+    if (!guidedActive) return;
+
+    const user = guidedUsers[guidedIndex];
+
+    setVisited((prev) => new Set(prev).add(user));
+
     const next = guidedIndex + 1;
 
     if (next >= guidedUsers.length) {
-      setGuidedActive(false);
-      alert("Guided session complete!");
+      stopGuidedMode();
       return;
     }
 
     setGuidedIndex(next);
+
     openProfile(guidedUsers[next]);
   };
 
@@ -120,16 +127,19 @@ const App: FC = () => {
   };
 
   useEffect(() => {
-    const listener = (msg: any) => {
-      if (msg.type === "GUIDED_UNFOLLOW_DETECTED") {
+    const handler = (msg: any) => {
+      if (
+        msg.type === "GUIDED_NEXT" ||
+        msg.type === "GUIDED_UNFOLLOW_DETECTED"
+      ) {
         nextGuidedProfile();
       }
     };
 
-    chrome.runtime.onMessage.addListener(listener);
+    chrome.runtime.onMessage.addListener(handler);
 
     return () => {
-      chrome.runtime.onMessage.removeListener(listener);
+      chrome.runtime.onMessage.removeListener(handler);
     };
   }, [nextGuidedProfile]);
 
@@ -150,6 +160,7 @@ const App: FC = () => {
       guidedActive={guidedActive}
       guidedIndex={guidedIndex}
       guidedTotal={guidedUsers.length}
+      visited={visited}
     />,
   ];
 
