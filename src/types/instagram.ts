@@ -25,10 +25,12 @@ export interface ResultsSlideProps {
   guidedActive: boolean;
   guidedIndex: number;
   guidedTotal: number;
+  visited: Set<string>;
 }
 
 export interface UserListProps {
   users: string[];
+  visited: Set<string>;
 }
 
 export interface NavigationDotsProps {

@@ -13,6 +13,7 @@ export const ResultsSlide: FC<ResultsSlideProps> = ({
   guidedActive,
   guidedIndex,
   guidedTotal,
+  visited,
 }) => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
@@ -125,7 +126,7 @@ export const ResultsSlide: FC<ResultsSlideProps> = ({
       </div>
 
       <div className="mb-3 bg-white border-4 border-[#0F2854] shadow-[2px_2px_0px_0px_rgba(15,40,84,1)] overflow-hidden">
-        <UserList users={tabs[activeTab].data} />
+        <UserList users={tabs[activeTab].data} visited={visited} />
       </div>
 
       <button

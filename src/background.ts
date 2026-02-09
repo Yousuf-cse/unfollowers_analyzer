@@ -29,3 +29,9 @@ chrome.runtime.onMessage.addListener((message, _sender) => {
     });
   }
 });
+
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === "GUIDED_NEXT") {
+    chrome.runtime.sendMessage(msg);
+  }
+});
