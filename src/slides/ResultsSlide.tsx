@@ -126,7 +126,15 @@ export const ResultsSlide: FC<ResultsSlideProps> = ({
       </div>
 
       <div className="mb-3 bg-white border-4 border-[#0F2854] shadow-[2px_2px_0px_0px_rgba(15,40,84,1)] overflow-hidden">
-        <UserList users={tabs[activeTab].data} visited={visited} />
+        <UserList
+          users={tabs[activeTab].data}
+          visited={visited}
+          activeIndex={
+            guidedActive && tabs[activeTab].data === data.notFollowingBack
+              ? guidedIndex
+              : undefined
+          }
+        />
       </div>
 
       <button
