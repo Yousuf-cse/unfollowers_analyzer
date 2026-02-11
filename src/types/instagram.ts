@@ -31,6 +31,7 @@ export interface ResultsSlideProps {
 export interface UserListProps {
   users: string[];
   visited: Set<string>;
+  activeIndex?: number;
 }
 
 export interface NavigationDotsProps {
