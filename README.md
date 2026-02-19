@@ -1,4 +1,5 @@
 # 📸 Instagram Unfollowers Analyzer
+[![YouTube](https://img.shields.io/badge/YouTube-Video-red?logo=youtube)](https://youtu.be/2ijQbi1v0SI)
 
 A **privacy-first Chrome Extension** that helps you analyze your Instagram followers and following list to find:
 
