@@ -1,11 +1,14 @@
 # 📸 Instagram Unfollowers Analyzer
 [![YouTube](https://img.shields.io/badge/YouTube-Video-red?logo=youtube)](https://youtu.be/2ijQbi1v0SI)
 
-A **privacy-first Chrome Extension** that helps you analyze your Instagram followers and following list to find:
+A privacy-first Chrome Extension that helps you analyze your Instagram followers using your official data export and gives you a smarter workflow to manage your connections.
 
+🔍 Instantly discover:
 - ❌ People who don’t follow you back
 - 🤝 Mutual followers
 - 👀 People who follow you but you don’t follow back
+
+⚡ Includes Guided Unfollow Mode — a human-in-the-loop workflow that opens profiles one by one so you can review and unfollow safely without automation risks.
 
 All processing happens **locally in your browser**.  
 No login. No servers. No data leaves your system.
